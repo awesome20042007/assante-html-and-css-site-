@@ -1,0 +1,758 @@
+/* ==========================================================================
+   ASANTE CHURCH INTERNATIONAL — STYLESHEET
+
+   One file for the whole website. Sections:
+     1. Colours and sizes (change the look of the whole site here)
+     2. Reset and base
+     3. Text
+     4. Layout (containers, sections, grids)
+     5. Buttons
+     6. Cards
+     7. Accessibility helpers
+     8. Header and menu
+     9. Footer
+    10. Home page (hero, call to action, lists)
+    11. Inner pages (leaders, services table, events, gallery, about, contact)
+    12. Error and thank-you pages
+    13. Gentle animations
+    14. Big screens and TVs
+   ========================================================================== */
+
+
+/* -------------------- 1. COLOURS AND SIZES -------------------- */
+:root {
+  --primary-color: #3b1f6e;      /* deep purple: header, footer, headings, dark buttons */
+  --primary-dark: #261246;       /* darker purple: hover states, footer */
+  --secondary-color: #6b46b8;    /* lighter purple: supporting accent */
+  --accent-color: #c9a227;       /* gold: call-to-action buttons, highlights */
+  --accent-dark: #a9850f;        /* darker gold: hover states */
+  --background-color: #ffffff;   /* main page background */
+  --background-alt: #f9f7fd;     /* light lavender: alternate section background */
+  --text-color: #1f1a2e;         /* main body text */
+  --text-muted: #5b5670;         /* lighter body text */
+  --border-color: #e5def2;       /* thin borders and dividers */
+
+  /* Spacing scale: use these instead of random pixel values */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+
+  /* Layout */
+  --container-max-width: 1280px;
+  --radius: 10px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.35s ease;
+}
+
+
+/* -------------------- 2. RESET AND BASE -------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  line-height: 1.6;
+  overflow-x: hidden; /* safety net against sideways scrolling */
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Respect people who have asked their device for less motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* -------------------- 3. TEXT -------------------- */
+/* clamp(smallest, preferred, largest) lets text grow smoothly from a small
+   phone to a big TV without needing separate rules for every screen size. */
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--primary-color);
+}
+
+h1 { font-size: clamp(1.9rem, 4vw + 0.8rem, 4.5rem); }
+h2 { font-size: clamp(1.75rem, 2.5vw + 1rem, 3rem); }
+h3 { font-size: clamp(1.4rem, 1.5vw + 1rem, 2rem); }
+h4 { font-size: clamp(1.15rem, 1vw + 1rem, 1.5rem); }
+
+/* A level-2 heading that looks like a smaller (level-3) heading */
+.subheading { font-size: clamp(1.4rem, 1.5vw + 1rem, 2rem); }
+
+p {
+  font-size: clamp(1rem, 0.3vw + 0.9rem, 1.15rem);
+  color: var(--text-color);
+}
+
+/* Long words may break onto a new line instead of running off the screen */
+h1, h2, h3, h4, p, li {
+  overflow-wrap: break-word;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+/* Breathing room between headings, paragraphs, lists and buttons */
+h1 + p, h2 + p, h3 + p, h4 + p,
+p + p {
+  margin-top: var(--space-xs);
+}
+p + .btn {
+  margin-top: var(--space-md);
+}
+p + p:has(> .btn) {
+  margin-top: var(--space-md);
+}
+h2 + .grid,
+h2 + .gallery-grid,
+h2 + .service-list,
+h2 + .schedule-table {
+  margin-top: var(--space-md);
+}
+
+/* The small gold label above a heading (a darker gold so it is easy to read) */
+.section-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #8a6d0b;
+  margin-bottom: var(--space-xs);
+}
+
+
+/* -------------------- 4. LAYOUT -------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-sm);
+}
+
+.section {
+  padding-block: var(--space-xl);
+}
+
+.section-alt {
+  background-color: var(--background-alt);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+/* Grids stack into one column on phones and spread out on bigger screens */
+.grid-2 { grid-template-columns: repeat(1, 1fr); }
+.grid-3 { grid-template-columns: repeat(1, 1fr); }
+.grid-4 { grid-template-columns: repeat(1, 1fr); }
+
+@media (min-width: 640px) {
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+
+/* -------------------- 5. BUTTONS -------------------- */
+.btn {
+  display: inline-block;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: background-color var(--transition-fast),
+              color var(--transition-fast),
+              border-color var(--transition-fast),
+              transform var(--transition-fast);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background-color: var(--accent-color);
+  color: var(--primary-dark);
+}
+.btn-primary:hover {
+  background-color: var(--accent-dark);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--background-color);
+  border-color: var(--background-color);
+}
+.btn-outline:hover {
+  background-color: var(--background-color);
+  color: var(--primary-color);
+}
+
+/* The outline button on a white background (for example "Get Directions") */
+.btn-outline-dark {
+  background-color: transparent;
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+.btn-outline-dark:hover {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+.btn-dark {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+.btn-dark:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Easy-to-tap buttons on phones */
+@media (max-width: 480px) {
+  .btn {
+    width: 100%;
+    padding: 1rem;
+  }
+}
+
+
+/* -------------------- 6. CARDS -------------------- */
+.card {
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(59, 31, 110, 0.12);
+}
+
+/* A picture at the top of a card. Shown in full, never cropped,
+   because event posters have writing on them. */
+.card-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  margin-bottom: var(--space-sm);
+}
+
+
+/* -------------------- 7. ACCESSIBILITY HELPERS -------------------- */
+
+/* A clear gold outline when someone moves around with the keyboard */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* "Skip to main content" link: hidden until a keyboard user presses Tab */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--accent-color);
+  color: var(--primary-dark);
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  z-index: 200;
+}
+.skip-link:focus {
+  left: var(--space-sm);
+  top: var(--space-xs);
+}
+
+/* Text for screen readers only (invisible on screen) */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Anti-spam trap for the contact form: people never see it, bots fill it in */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+
+/* -------------------- 8. HEADER AND MENU -------------------- */
+.site-header {
+  background-color: var(--primary-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--space-sm);
+}
+
+/* Church emblem on a white circle, next to the church name */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #ffffff;
+  font-family: 'Georgia', serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+.logo-img {
+  width: 48px;
+  height: 48px;
+  padding: 4px;
+  background: #ffffff;
+  border-radius: 50%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.logo .logo-text {
+  color: #ffffff;
+  line-height: 1.15;
+}
+.logo .logo-text span {
+  color: var(--accent-color);
+}
+
+.main-nav ul {
+  display: flex;
+  gap: var(--space-md);
+}
+.main-nav a {
+  color: #ffffff;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+.main-nav a:hover {
+  color: var(--accent-color);
+}
+
+/* The three-line menu button (only shown on smaller screens) */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 120;   /* stays above the sliding menu so it can always be tapped */
+}
+.menu-toggle span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+/* Smaller screens: the menu slides in from the right */
+@media (max-width: 1279px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: min(80%, 320px);
+    height: 100vh;
+    background-color: var(--primary-color);
+    padding: var(--space-2xl) var(--space-md);
+    visibility: hidden;   /* closed menu links cannot be reached with the Tab key */
+    transition: right var(--transition-normal), visibility var(--transition-normal);
+  }
+  .main-nav.is-open {
+    right: 0;
+    visibility: visible;
+  }
+  .main-nav ul {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  /* The three lines turn into an X when the menu is open */
+  .menu-toggle.is-active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .menu-toggle.is-active span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle.is-active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+}
+
+
+/* -------------------- 9. FOOTER -------------------- */
+.site-footer {
+  background-color: var(--primary-dark);
+  color: #ffffff;
+  padding-top: var(--space-xl);
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--space-lg);
+  padding-bottom: var(--space-lg);
+}
+@media (min-width: 768px) {
+  .footer-inner {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.footer-heading {
+  color: #ffffff;
+  font-size: 1.15rem;
+  margin-bottom: var(--space-xs);
+}
+
+/* Light text so it is easy to read on the dark purple */
+.site-footer .text-muted,
+.site-footer p {
+  color: rgba(255, 255, 255, 0.8);
+}
+.site-footer a {
+  text-decoration: underline;
+}
+.site-footer a:hover {
+  color: var(--accent-color);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-block: var(--space-sm);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+
+/* -------------------- 10. HOME PAGE -------------------- */
+.hero {
+  background:
+    radial-gradient(circle at 85% 15%, color-mix(in srgb, var(--accent-color) 22%, transparent), transparent 45%),
+    linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: #ffffff;
+  padding-block: var(--space-2xl);
+  text-align: center;
+}
+.hero h1 {
+  color: #ffffff;
+}
+.hero .section-eyebrow {
+  color: var(--accent-color);
+}
+.hero-subtext {
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 640px;
+  margin-inline: auto;
+  margin-block: var(--space-sm);
+}
+.hero-buttons {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: var(--space-md);
+}
+
+/* Larger emblem on a white circle above the heading */
+.hero-logo {
+  display: block;
+  width: 132px;
+  height: 132px;
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 50%;
+  object-fit: contain;
+  margin: 0 auto var(--space-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+@media (max-width: 480px) {
+  .hero-logo {
+    width: 104px;
+    height: 104px;
+  }
+}
+
+.cta-section {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  text-align: center;
+  padding-block: var(--space-xl);
+}
+.cta-section h2 {
+  color: #ffffff;
+  margin-bottom: var(--space-sm);
+}
+
+.service-list li {
+  padding: var(--space-xs) 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+
+/* -------------------- 11. INNER PAGES -------------------- */
+
+/* Leadership */
+.leader-card {
+  text-align: center;
+}
+.leader-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto var(--space-sm);
+}
+
+/* Services table */
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.schedule-table th,
+.schedule-table td {
+  text-align: left;
+  padding: var(--space-sm);
+  border-bottom: 1px solid var(--border-color);
+}
+.schedule-table th {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+.schedule-table td:nth-child(2) {
+  white-space: nowrap;       /* day names (Thursday, Wednesday) never split across two lines */
+}
+@media (max-width: 480px) {
+  .schedule-table th,
+  .schedule-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Sermons */
+.sermon-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius);
+  margin-bottom: var(--space-sm);
+}
+
+/* Events */
+.event-card {
+  position: relative;
+}
+.event-date-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border-radius: var(--radius);
+  padding: var(--space-xs) var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+.event-day {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.event-month {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+/* Gallery: 2 columns on phones, then 3, then 4 */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+}
+.gallery-grid img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+@media (min-width: 640px) {
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1024px) {
+  .gallery-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* About */
+.about-grid {
+  display: grid;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+@media (min-width: 768px) {
+  .about-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.values-list li,
+.faith-statement p {
+  margin-bottom: var(--space-sm);
+  color: var(--text-color);
+}
+
+/* Contact */
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);   /* minmax(0, ...) lets the column shrink to fit a phone */
+  gap: var(--space-xl);
+}
+@media (min-width: 900px) {
+  .contact-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.contact-form label {
+  font-weight: 600;
+  color: var(--primary-color);
+  font-size: 0.95rem;
+}
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  resize: vertical;
+}
+
+
+/* -------------------- 12. ERROR AND THANK-YOU PAGES -------------------- */
+.error-page {
+  text-align: center;
+  padding-block: var(--space-2xl);
+}
+.error-page p {
+  max-width: 560px;
+  margin: var(--space-sm) auto;
+}
+
+
+/* -------------------- 13. GENTLE ANIMATIONS -------------------- */
+/* Sections fade in as you scroll (only when JavaScript is on) */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* No movement for reduced-motion users, and everything shows when printing */
+@media (prefers-reduced-motion: reduce), print {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+
+/* -------------------- 14. BIG SCREENS AND TVS -------------------- */
+/* Almost every size on this site uses rem, so raising the base size
+   makes the whole site bigger together. */
+@media (min-width: 1920px) {
+  html { font-size: 112.5%; }
+  :root { --container-max-width: 1500px; }
+}
+@media (min-width: 2560px) {
+  html { font-size: 137.5%; }
+  :root { --container-max-width: 1800px; }
+}
+@media (min-width: 3200px) {
+  html { font-size: 175%; }
+  :root { --container-max-width: 2200px; }
+}

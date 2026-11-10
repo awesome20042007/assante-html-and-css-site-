@@ -1,0 +1,9 @@
+# Computer files
+.DS_Store
+Thumbs.db
+
+# Big original photos, if you keep copies inside the project folder
+originals/
+
+# Other editors' settings
+.idea/

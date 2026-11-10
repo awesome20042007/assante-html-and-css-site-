@@ -1,0 +1,3 @@
+# Used only if the site is hosted on an Apache / cPanel server.
+Options -Indexes
+ErrorDocument 404 /404.html
